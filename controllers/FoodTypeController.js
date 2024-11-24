@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { listenerCount } = require('process');
 const prisma = new PrismaClient();
 
 module.exports = {
@@ -13,6 +14,20 @@ module.exports = {
             });
 
             return res.send({ message: "success" });
+        } catch (e) {
+            return res.status(500).send({ error: e.message })
+        }
+    },
+
+    list: async (req, res) => {
+        try {
+            const rows = await prisma.foodType.findMany({
+                where: {
+                    status: 'use',
+                }
+            });
+
+            return res.send({ results: rows });
         } catch (e) {
             return res.status(500).send({ error: e.message })
         }

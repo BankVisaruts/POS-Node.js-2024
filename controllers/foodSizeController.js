@@ -53,5 +53,24 @@ module.exports = {
         } catch (e) {
             return res.status(500).send({ error: e.message })
         }
+    },
+    update: async (req, res) => {
+        try {
+            await prisma.foodSize.update({
+                data: {
+                    name: req.body.name,
+                    remark: req.body.remark,
+                    foodTypeId: req.body.foodTypeId,
+                    moneyAdded: req.body.price
+                },
+                where: {
+                    id: req.body.id,
+                }
+            });
+
+            return res.send({ message: "success" })
+        } catch (e) {
+            return res.status(500).send({ error: e.message })
+        }
     }
 }

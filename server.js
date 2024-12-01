@@ -5,13 +5,15 @@ const cors = require('cors');
 
 const userController = require('./controllers/UserController')
 const foodTypeController = require('./controllers/FoodTypeController');
-const foodSizeController = require('./controllers/foodSizeController');
+const foodSizeController = require('./controllers/FoodSizeController');
+const tasteController = require('./controllers/TasteController');
 
 app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.post('/api/taste/create', (req, res) => tasteController.create(req, res));
 app.put('/api/foodSize/update', (req, res) => foodSizeController.update(req, res));
 app.delete('/api/foodSize/remove/:id', (req, res) => foodSizeController.remove(req, res));
 app.get('/api/foodSize/list', (req, res) => foodSizeController.list(req, res));

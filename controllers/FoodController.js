@@ -11,7 +11,7 @@ module.exports = {
                     remark: req.body.remark,
                     price: req.body.price,
                     foodType: req.body.foodType,
-                    img: req.body.img,
+                    img: req.body.img ?? "",
                     status: "use",
                 },
             });
@@ -74,6 +74,39 @@ module.exports = {
             return res.send({ message: "success" });
         } catch (e) {
             return res.status(500).send({ error: e.message })
+        }
+    },
+    update: async (req, res) => {
+        try {
+            let img = req.body.img;
+            
+            if (img === undefined) {
+                const row = await prisma.food.findFirst({
+                    where: {
+                        id: req.body.id,
+                    }
+                })
+
+                img = row.img;
+            }
+            
+            await prisma.food.update({
+                data: {
+                    foodTypeId: req.body.foodTypeId,
+                    foodType: req.body.foodType,
+                    name: req.body.name,
+                    price: req.body.price,
+                    remark: req.body.remark,
+                    img: img
+                },
+                where: {
+                    id: req.body.id
+                }
+            });
+
+            return res.send({ message: "success" });
+        } catch (e) {
+           return res.status(500).send({ error: e.message }) 
         }
     }
 }

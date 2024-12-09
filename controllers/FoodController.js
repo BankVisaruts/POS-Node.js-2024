@@ -108,5 +108,25 @@ module.exports = {
         } catch (e) {
            return res.status(500).send({ error: e.message }) 
         }
+    },
+    filter: async (req, res) => {
+        try {
+            const rows = await prisma.food.findMany({
+                include: {
+                    FoodType: true,
+                },
+                where: {
+                    foodType: req.params.foodType,
+                    status: 'use'
+                },
+                orderBy: {
+                    id: 'desc'
+                }
+            });
+
+            return res.send({ results: rows });
+        } catch (e) {
+            return res.status(500).send({ error: e.message })
+        }
     }
 }

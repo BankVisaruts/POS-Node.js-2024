@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/uploads', express.static('./uploads'));
 
+app.get('/api/food/filter/:foodType', (req, res) => foodController.filter(req, res));
 app.put('/api/food/update', (req, res) => foodController.update(req, res));
 app.delete('/api/food/remove/:id', (req,res) => foodController.remove(req, res));
 app.get('/api/food/list', (req, res) => foodController.list(req, res));
